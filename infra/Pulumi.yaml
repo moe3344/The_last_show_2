@@ -1,0 +1,11 @@
+name: the-last-show-infra
+description: the last show resources
+runtime:
+  name: python
+  options:
+    toolchain: pip
+    virtualenv: venv
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-python
