@@ -73,14 +73,13 @@ export default function DashboardClient({
           onClose={() => setNotification(null)}
         />
       )}
-      {deleteConfirm && (
-        <ConfirmDialog
-          title="Delete Obituary"
-          message="Are you sure you want to delete this obituary? This action cannot be undone."
-          onConfirm={confirmDelete}
-          onCancel={() => setDeleteConfirm(null)}
-        />
-      )}
+      <ConfirmDialog
+        open={!!deleteConfirm}
+        title="Delete Obituary"
+        message="Are you sure you want to delete this obituary? This action cannot be undone."
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteConfirm(null)}
+      />
       <DashboardLayout user={user}>
         <div className="space-y-6">
           <div className="flex justify-between items-center">
@@ -98,7 +97,11 @@ export default function DashboardClient({
             </Button>
           </div>
 
-          {showCreateForm && <CreateObituaryForm onSuccess={handleSuccess} />}
+          <CreateObituaryForm
+            open={showCreateForm}
+            onOpenChange={setShowCreateForm}
+            onSuccess={handleSuccess}
+          />
 
           <ObituaryList
             obituaries={initialObituaries}

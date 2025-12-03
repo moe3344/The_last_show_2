@@ -4,13 +4,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -28,10 +22,14 @@ import { getErrorMessage } from "@/types/errors";
 import { createObituaryAction } from "@/app/actions/obituary";
 
 interface CreateObituaryFormProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
 }
 
 export default function CreateObituaryForm({
+  open,
+  onOpenChange,
   onSuccess,
 }: CreateObituaryFormProps) {
   const [isPending, startTransition] = useTransition();
@@ -142,16 +140,17 @@ export default function CreateObituaryForm({
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Create New Obituary</CardTitle>
-        <CardDescription>
-          Fill in the details below to generate an AI-powered obituary
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent onClose={() => onOpenChange(false)}>
+        <DialogHeader>
+          <DialogTitle>Create New Obituary</DialogTitle>
+          <DialogDescription>
+            Fill in the details below to generate an AI-powered obituary
+          </DialogDescription>
+        </DialogHeader>
+        <div className="p-6 pt-0">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {error && (
               <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm">
                 {error}
@@ -251,9 +250,10 @@ export default function CreateObituaryForm({
                 "Generate Obituary"
               )}
             </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+            </form>
+          </Form>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }

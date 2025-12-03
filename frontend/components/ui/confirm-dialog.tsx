@@ -1,9 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { AlertTriangle } from "lucide-react";
 
 interface ConfirmDialogProps {
+  open: boolean;
   title: string;
   message: string;
   onConfirm: () => void;
@@ -11,14 +13,15 @@ interface ConfirmDialogProps {
 }
 
 export default function ConfirmDialog({
+  open,
   title,
   message,
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 animate-in fade-in">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 animate-in zoom-in-95">
+    <Dialog open={open} onOpenChange={onCancel}>
+      <DialogContent onClose={onCancel}>
         <div className="p-6">
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
@@ -48,7 +51,7 @@ export default function ConfirmDialog({
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
