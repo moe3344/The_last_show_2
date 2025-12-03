@@ -7,7 +7,7 @@ class ObituaryCreate(BaseModel):
     birth_date: str  # "YYYY-MM-DD"
     death_date: str  # "YYYY-MM-DD"
     is_public: bool = False
-    image: Optional[str] = None  # Base64 encoded image or will be file upload
+    image: Optional[str] = None  
 class ObituaryResponse(BaseModel):
     id: str
     user_id: str

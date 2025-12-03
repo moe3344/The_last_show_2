@@ -1,15 +1,13 @@
 """
-Pytest configuration and fixtures
+Pytest configuration and fixtures for unit tests
 """
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from fastapi.testclient import TestClient
-from app.database import Base, get_db
-from app.main import app
+from app.database import Base
 from app.models.user import User
-from app.services.auth_service import get_password_hash, create_access_token
-from datetime import timedelta
+from app.models.obituary import Obituary
+from app.services.auth_service import get_password_hash
 import uuid
 
 # Use in-memory SQLite for testing
@@ -34,21 +32,6 @@ def db():
         Base.metadata.drop_all(bind=engine)
 
 
-@pytest.fixture(scope="function")
-def client(db):
-    """Create a test client with database dependency override"""
-    def override_get_db():
-        try:
-            yield db
-        finally:
-            pass
-
-    app.dependency_overrides[get_db] = override_get_db
-    with TestClient(app) as test_client:
-        yield test_client
-    app.dependency_overrides.clear()
-
-
 @pytest.fixture
 def test_user(db):
     """Create a test user"""
@@ -65,16 +48,18 @@ def test_user(db):
 
 
 @pytest.fixture
-def auth_token(test_user):
-    """Generate auth token for test user"""
-    token = create_access_token(
-        data={"sub": test_user.email},
-        expires_delta=timedelta(minutes=30)
+def test_obituary(db, test_user):
+    """Create a test obituary"""
+    obituary = Obituary(
+        id=str(uuid.uuid4()),
+        user_id=test_user.id,
+        name="John Doe",
+        birth_date="1950-01-01",
+        death_date="2024-01-01",
+        obituary_text="A loving father and friend...",
+        is_public=True
     )
-    return token
-
-
-@pytest.fixture
-def auth_headers(auth_token):
-    """Generate auth headers with bearer token"""
-    return {"Authorization": f"Bearer {auth_token}"}
+    db.add(obituary)
+    db.commit()
+    db.refresh(obituary)
+    return obituary

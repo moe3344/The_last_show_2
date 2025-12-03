@@ -10,15 +10,15 @@ class Obituary(Base):
 
     # Person details
     name = Column(String, nullable=False)
-    birth_date = Column(String, nullable=False)  # "YYYY-MM-DD"
-    death_date = Column(String, nullable=False)  # "YYYY-MM-DD"
+    birth_date = Column(String, nullable=False) 
+    death_date = Column(String, nullable=False) 
 
     # Generated content
-    obituary_text = Column(Text, nullable=False)  # ChatGPT generated
+    obituary_text = Column(Text, nullable=False)  
 
     # Media URLs
-    image_url = Column(String, nullable=True)  # S3 URL for photo
-    audio_url = Column(String, nullable=True)  # S3 URL for Polly audio
+    image_url = Column(String, nullable=True) 
+    audio_url = Column(String, nullable=True)  #
 
     # Visibility
     is_public = Column(Boolean, default=True)
