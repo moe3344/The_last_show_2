@@ -17,7 +17,7 @@ export async function deleteObituaryAction(id: string) {
 }
 
 export async function createObituaryAction(formData: FormData) {
-  console.log("🚀 createObituaryAction called");
+  console.log(" createObituaryAction called");
 
   // Get the values from FormData
   const name = formData.get("name") as string;
@@ -29,7 +29,13 @@ export async function createObituaryAction(formData: FormData) {
   // Convert is_public string to boolean
   const is_public = is_public_str === "true";
 
-  console.log("📦 Parsed data:", { name, birth_date, death_date, is_public, image: image?.name });
+  console.log("Parsed data:", {
+    name,
+    birth_date,
+    death_date,
+    is_public,
+    image: image?.name,
+  });
 
   // Validate the data (excluding image)
   const validatedFields = obituaryCreateSchema.safeParse({
@@ -40,7 +46,7 @@ export async function createObituaryAction(formData: FormData) {
   });
 
   if (!validatedFields.success) {
-    console.log("❌ Validation errors:", validatedFields.error.format());
+    console.log(" Validation errors:", validatedFields.error.format());
     return {
       success: false,
       error: "Invalid form data. Please check the fields and try again.",
@@ -60,14 +66,14 @@ export async function createObituaryAction(formData: FormData) {
       apiFormData.append("image", image);
     }
 
-    console.log("📤 Sending to backend...");
+    console.log(" Sending to backend...");
     await serverAPI.createObituary(apiFormData);
 
     revalidatePath("/dashboard");
-    console.log("✅ Obituary created successfully");
+    console.log(" Obituary created successfully");
     return { success: true };
   } catch (err) {
-    console.error("❌ Error creating obituary:", err);
+    console.error(" Error creating obituary:", err);
     return { success: false, error: getErrorMessage(err) };
   }
 }

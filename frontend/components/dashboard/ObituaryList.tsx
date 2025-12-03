@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,7 +24,7 @@ const ObituaryList: React.FC<ObituaryListProps> = ({
         <Card>
           <CardContent className="py-12 text-center">
             <p className="text-muted-foreground mb-4">
-              You haven't created any obituaries yet.
+              You haven&apos;t created any obituaries yet.
             </p>
             <Button onClick={onShowCreateForm}>
               Create Your First Obituary

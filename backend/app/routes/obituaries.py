@@ -30,10 +30,10 @@ async def create_obituary(
     Create a new obituary with AI-generated text, optional image, and TTS audio.
     Works with multipart/form-data.
     """
-    logger.info("📥 Incoming obituary creation request")
+    logger.info(" Incoming obituary creation request")
     logger.info(f"name={name!r}, birth_date={birth_date!r}, death_date={death_date!r}, is_public={is_public!r}, image={image.filename if image else None}")
     # Log incoming data
-    logger.info("📥 Incoming obituary creation request")
+    logger.info(" Incoming obituary creation request")
     logger.info(f"name: {name!r}")
     logger.info(f"birth_date: {birth_date!r}")
     logger.info(f"death_date: {death_date!r}")
@@ -50,14 +50,14 @@ async def create_obituary(
     # Upload image if provided
     image_url = None
     if image:
-        logger.info(f"📤 Uploading image: {image.filename}")
+        logger.info(f" Uploading image: {image.filename}")
         image_data = await image.read()
-        logger.info(f"📦 Image size: {len(image_data)} bytes")
+        logger.info(f" Image size: {len(image_data)} bytes")
         image_url = await upload_image_to_lambda(image_data, image.filename)
         if image_url:
-            logger.info(f"✅ Image uploaded successfully: {image_url}")
+            logger.info(f" Image uploaded successfully: {image_url}")
         else:
-            logger.error(f"❌ Image upload failed for {image.filename}")
+            logger.error(f" Image upload failed for {image.filename}")
 
     # Create obituary data object
     obituary_data = ObituaryCreate(
@@ -86,7 +86,7 @@ async def create_obituary(
         db.commit()
         db.refresh(obituary)
 
-    logger.info(f"✅ Obituary created with ID: {obituary.id}")
+    logger.info(f" Obituary created with ID: {obituary.id}")
 
    
     return jsonable_encoder(obituary)

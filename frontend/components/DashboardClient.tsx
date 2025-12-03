@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import CreateObituaryForm from "@/components/CreateObituaryForm";
@@ -12,7 +10,6 @@ import Notification from "@/components/ui/notification";
 import ConfirmDialog from "@/components/ui/confirm-dialog";
 import type { Obituary } from "@/types/obituary";
 import type { User as UserType } from "@/types/user";
-import { getErrorMessage } from "@/types/errors";
 import { deleteObituaryAction } from "@/app/actions/obituary";
 
 interface DashboardClientProps {
@@ -30,7 +27,6 @@ export default function DashboardClient({
     type: "success" | "error";
   } | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
-  const router = useRouter();
 
   const handleDeleteObituary = async (id: string) => {
     setDeleteConfirm(id);
