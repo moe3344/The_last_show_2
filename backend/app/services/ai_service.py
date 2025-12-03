@@ -21,7 +21,7 @@ def generate_obituary_text(name: str, birth_date: str, death_date: str) -> str:
   - Born: {birth_date}
   - Passed away: {death_date}
 
-  Write a 3-4 paragraph obituary that:
+  Write a 1 paragraph obituary that:
   1. Announces their passing with dignity
   2. Mentions a few fictional life achievements or positive characteristics
   3. Includes survived by family members (fictional)
