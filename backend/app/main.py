@@ -4,15 +4,18 @@ warnings.filterwarnings("ignore", message="error reading bcryptversion")
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
-from app.routes import auth, obituaries  
+from app.routes import auth, obituaries
 
-# Create database tables
-Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="The Last Show API",
     description="AI-powered obituary generator with authentication",
     version="2.0.0"
 )
+
+@app.on_event("startup")
+def startup_event():
+    """Create database tables on startup"""
+    Base.metadata.create_all(bind=engine)
 
 # CORS
 app.add_middleware(
